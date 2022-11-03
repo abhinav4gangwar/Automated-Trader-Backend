@@ -1,0 +1,37 @@
+body {
+    background-color: #31353F;
+    font-family: poppins;
+}
+
+.heading-3 {
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+.primary {
+    color: #3A6FF8;
+}
+
+.secondary {
+    background-color: #1B2028;
+}
+
+.grey {
+    color: #9E9E9E;
+}
+
+.white {
+    color: #FFFFFF;
+}
+
+.green {
+    color: rgb(0, 209, 0);
+}
+
+.red {
+    color: rgb(255, 0, 0) !important;
+}
+
+.w-25 {
+    width: 19vw !important;
+}
