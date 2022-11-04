@@ -4,7 +4,7 @@ const PortfolioSchema = new Mongoose.Schema({
 
     balance: {
         type: Number,
-        default : 100000
+        default : 1000000
     },
     pl: {
         type: Number,

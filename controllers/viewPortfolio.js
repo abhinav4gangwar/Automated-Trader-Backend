@@ -2,7 +2,7 @@ const Portfolio = require("../models/Portfolio")
 const {Converter} = require("easy-currencies")
 const yahooFinance = require('yahoo-finance2').default;
 
-exports.viewFav = async (req,res) =>{
+exports.viewPortfolio = async (req,res) =>{
     const {username} = req.body
     
     if (!username) {
@@ -17,13 +17,13 @@ exports.viewFav = async (req,res) =>{
             message: "error occured, not found",
         })
     }
-    var favList = portfolio.fav
+    var ownedList = portfolio.owned
 
-    var favJSON =  []
+    var ownedJSON =  []
 
 
-    await Promise.all(favList.map(async (i) => {
-        const quote = await yahooFinance.quote(i);
+    await Promise.all(ownedList.map(async (i) => {
+        const quote = await yahooFinance.quote(i.symbol);
 
         const converter = new Converter();
         const multiplier = await converter.convert(1,quote.currency, "INR");
@@ -31,16 +31,18 @@ exports.viewFav = async (req,res) =>{
         tempObj = {}
 
         
-        tempObj.name = quote.shortName
+        tempObj.name = quote.shortName,
+        tempObj.quantity = i.quantity,
         tempObj.ltp = (quote.regularMarketPrice * multiplier)
         tempObj.change = (quote.regularMarketChange * multiplier)
         tempObj.changePercent = quote.regularMarketChangePercent
-        tempObj.symbol = i
+        tempObj.symbol = i.symbol
         tempObj.currency = quote.currency 
 
-        console.log(tempObj)
+        // console.log(tempObj)
 
-        favJSON.push({name  : tempObj.name,
+        ownedJSON.push({name  : tempObj.name,
+            quantity : tempObj.quantity,
             ltp : tempObj.ltp,
             change : tempObj.change,
             changePercent : tempObj.changePercent,
@@ -49,7 +51,7 @@ exports.viewFav = async (req,res) =>{
     }));
       
 
-    console.log(favJSON)
-    return res.status(200).send(favJSON)
+    console.log(ownedJSON)
+    return res.status(200).send(ownedJSON)
 
 }
