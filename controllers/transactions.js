@@ -9,7 +9,7 @@ exports.transactions = async (req,res) =>{
             message: "not logged in",
         })
     }
-    const portfolio = await Portfolio.findOne({user :  username})
+    const portfolio = await Portfolio.findOne({user :  username}).sort({ iso_date: -1 })
 
     if (!portfolio){
         return res.status(404).json({
